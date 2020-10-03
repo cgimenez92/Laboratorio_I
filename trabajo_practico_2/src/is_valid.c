@@ -24,13 +24,6 @@ int isValidInt(char*string)
 	return ret;
 }
 
-/*
- * esFlotante: Verifica si la cadena ingresada es flotante
- * cadena: cadena de caracteres a ser analizada
- * limite: limite de la cadena
- * Retorno: 1 (verdadero) si la cadena es flotante , 0 (falso) si no y -1 en caso de ERROR de parametro
- *
- */
 int isValidFloat(char*string, int limit)
 {
 	int ret = -1;
@@ -65,7 +58,6 @@ int isValidFloat(char*string, int limit)
 	}
 	return ret;
 }
-
 
 int isValidName(char*string, int limit)
 {

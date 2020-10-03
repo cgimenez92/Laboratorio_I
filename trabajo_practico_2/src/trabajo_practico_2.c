@@ -35,8 +35,8 @@ int main(void)
 	employee_force_init(listEmployees, ARRAY_SIZE, "Cristian", "Gimenez",123.15 ,1);
 	employee_force_init(listEmployees, ARRAY_SIZE, "Tito", "Puente", 13245.2131 ,2);
 	employee_force_init(listEmployees, ARRAY_SIZE, "Cristian", "Jimeno", 521.465 , 2);
-	employee_force_init(listEmployees, ARRAY_SIZE, "Adalberto", "Terrrero", 2345.54 , 5);
-	employee_force_init(listEmployees, ARRAY_SIZE, "Homero", "Alverso", 145.31, 4);
+	employee_force_init(listEmployees, ARRAY_SIZE, "Alberto", "Terrrero", 2345.54 , 5);
+	employee_force_init(listEmployees, ARRAY_SIZE, "Homero", "Simpsons", 145.31, 4);
 
 */
 	do
