@@ -12,11 +12,11 @@
 #define FALSE 0
 #define STRING_SIZE 51
 #define MIN_LIMIT 1
-#define MAX_LIMIT 5
+#define MAX_LIMIT 6
 #define MIN_LIMIT_SALARY 1
-#define MAX_LIMIT_SALARY 10000000
-#define MIN_LIMIT_SALARY 1
-#define MAX_LIMIT_SALARY 10000000
+#define MAX_LIMIT_SALARY 100000000
+#define MIN_LIMIT_SECTOR 1
+#define MAX_LIMIT_SECTOR 100
 #define LENGHT_ARRAY_STRUCT 3
 #define ASC 1
 #define DSC 0
@@ -43,5 +43,7 @@ typedef struct
 	int employee_freePositionIndex(Employee * list, int len, int * pIndex);
 	int employee_searchId(Employee* list, int len, int id);
 	int employee_sortArray(Employee* list, int len, int order);
+	int employee_avgSalary(Employee* list, int len, float* avgValue);
+	int employee_sumSalary(Employee* list, int len, float* totalValue);
 
 #endif /* EMPLOYEE_H_ */

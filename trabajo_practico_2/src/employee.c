@@ -15,12 +15,6 @@
 static int employee_newId (void);
 static int employee_swapPostionInArray (Employee* list, int positionToSwap);
 
-
-/** \brief Carga datos de prueba tanto en el array de abonados como en el de llamadas
- * \param void
- * \return void
- */
-
 int employee_force_init(Employee* list, int len, char* name, char* lastName, float salary, int sector)
 {
     int ret = -1;
@@ -91,11 +85,11 @@ int employee_print(Employee* list,int index)
 	{
 		if(list[index].isEmpty==FALSE)
 		{
-			printf("\nID: %d - Nombre: %s - Apellido: %s - Sueldo: %f - Sector: %d\n",list[index].id, list[index].name, list[index].lastName, list[index].salary, list[index].sector);
+			printf("ID: %d - Nombre: %s - Apellido: %s - Sueldo: %f - Sector: %d",list[index].id, list[index].name, list[index].lastName, list[index].salary, list[index].sector);
 			ret = 0;
 		}else
 		{
-			printf("\nNo existe el usuario\n");
+			printf("\n/****Error - No existe el usuario****/\n");
 		}
 	}
 	return ret;
@@ -109,7 +103,7 @@ int employee_printArray(Employee * list , int len)
 		{
 			if(list[i].isEmpty == FALSE)
 			{
-				printf("\nID: %d - Nombre: %s - Apellido: %s - Sueldo: %f - Sector: %d\n",list[i].id, list[i].name, list[i].lastName, list[i].salary, list[i].sector);
+				printf("ID: %d - Nombre: %s - Apellido: %s - Sueldo: %f - Sector: %d\n",list[i].id, list[i].name, list[i].lastName, list[i].salary, list[i].sector);
 			}
 		}
 		ret = 0;
@@ -128,10 +122,10 @@ Employee buffer;
 		if (!employee_freePositionIndex (list, len, &index))
 		{
 			if (
-				!getName ("Ingrese nombre:", "Error\n", buffer.name, 3, STRING_SIZE) &&
-				!getName ("Ingrese Apellido:", "Error\n", buffer.lastName, 3, STRING_SIZE) &&
-				!getFloat("Ingrese Remuneracion:", "Error\n", &buffer.salary, 2, MIN_LIMIT_SALARY, MAX_LIMIT_SALARY) &&
-				!getInt("Sector:", "Error\n", &buffer.sector, 2, MIN_LIMIT, MAX_LIMIT))
+				!getName ("Ingrese nombre:", "Ingresar unicamente caracteres", buffer.name, 3, STRING_SIZE) &&
+				!getName ("Ingrese Apellido:", "Ingresar unicamente caracteres", buffer.lastName, 3, STRING_SIZE) &&
+				!getFloat("Ingrese Remuneracion:", "Ingresar unicamente numeros separados por (.) -> Ej: 100.00", &buffer.salary, 2, MIN_LIMIT_SALARY, MAX_LIMIT_SALARY) &&
+				!getInt("Sector:", "Ingresar unicamente numeros", &buffer.sector, 2, MIN_LIMIT_SECTOR, MAX_LIMIT_SECTOR))
 			{
 					list[index] = buffer;
 					list[index].id = employee_newId();
@@ -139,18 +133,16 @@ Employee buffer;
 			}
 			else
 				{
-					printf("Error\n");
+					printf("\n/****Error - Finalizaron la cantidad de intentos****/\n");
 				}
 		}
 		else
 			{
-				printf("No quedan espacios libres\n");
+				printf("\n/****Error - No se encuentran espacios disponibles en el listado de empleados****/\n");
 			}
 	}
 	return ret ;
 }
-
-//int employee_read(Employee * list , int len)
 
 int employee_update(Employee * list, int len)
 {
@@ -163,7 +155,7 @@ int employee_update(Employee * list, int len)
 	if(list != NULL && len > 0)
 	{
 		employee_printArray(list, len);
-		if(!getInt("\nIngrese el id del usuario que desea cambiar = ", "Error\n", &aux, 2, 1, 1000))
+		if(!getInt("Ingrese el id del usuario que desea cambiar: ", "Ingresar unicamente numeros", &aux, 2, 1, 1000))
 		{
 			auxIndex=employee_searchId(list, len, aux);
 			if(list[auxIndex].isEmpty==FALSE)
@@ -175,25 +167,25 @@ int employee_update(Employee * list, int len)
 					switch (menuChangeParameter())
 					{
 						case 1:
-							if(!getName ("\n Ingrese nombre", "\nError", buffer.name, 3, STRING_SIZE))
+							if(!getName ("Ingrese nombre", "Ingresar unicamente caracteres", buffer.name, 3, STRING_SIZE))
 							{
 								strncpy(list[auxIndex].name , buffer.name,STRING_SIZE);
 							}
 							break;
 						case 2:
-							if(!getName ("\n Ingrese Apellido", "\nError", buffer.lastName, 3, STRING_SIZE))
+							if(!getName ("Ingrese Apellido", "Ingresar unicamente caracteres", buffer.lastName, 3, STRING_SIZE))
 							{
 								strncpy(list[auxIndex].lastName , buffer.lastName,STRING_SIZE);
 							}
 							break;
 						case 3:
-							if(!getFloat("\nIngrese Remuneracion: ", "\nError", &buffer.salary, 2, MIN_LIMIT_SALARY, MAX_LIMIT_SALARY) )
+							if(!getFloat("Ingrese Remuneracion: ", "Ingresar unicamente numeros separados por (.) -> Ej: 100.00", &buffer.salary, 2, MIN_LIMIT_SALARY, MAX_LIMIT_SALARY) )
 							{
 								list[auxIndex].salary = buffer.salary;
 							}
 							break;
 						case 4:
-							if(!getInt("\nSector: ", "\nError", &buffer.sector, 2, MIN_LIMIT, MAX_LIMIT))
+							if(!getInt("Sector: ", "Ingresar unicamente numeros", &buffer.sector, 2, MIN_LIMIT_SECTOR, MAX_LIMIT_SECTOR))
 							{
 								list[auxIndex].sector = buffer.sector;
 							}
@@ -210,11 +202,11 @@ int employee_update(Employee * list, int len)
 				employee_print(list,auxIndex);
 				ret = 0;
 			}
-			else
-				{
-					printf("No se encuentran datos de Id\n");
-				}
 		}
+		else
+			{
+				printf("\n/****Error - No se encuentran datos del Id ingresado****/\n");
+			}
 	}
 	return ret;
 }
@@ -227,7 +219,7 @@ int employee_delete(Employee * list, int len)
 
 	if (list != NULL && len>0)
 	{
-		getInt("\nIngrese id a borrar: ", "\nError", &buffer.id, 2, MIN_LIMIT, MAX_LIMIT);
+		getInt("Ingrese id a borrar: ", "\n/****Error - No se encuentran datos del Id ingresado****/\n", &buffer.id, 2, MIN_LIMIT, MAX_LIMIT);
 		for (int i=0 ; i<len ;  i++)
 		{
 			if (buffer.id == list[i].id)
@@ -296,7 +288,7 @@ static int employee_swapPostionInArray (Employee* list, int positionToSwap)
 	return ret;
 }
 
-int employee_sortArray(Employee* list, int len, int order) //Sort by two variables
+int employee_sortArray(Employee* list, int len, int order)
 {
 	int ret = -1;
 	int flagSwap;
@@ -308,15 +300,17 @@ int employee_sortArray(Employee* list, int len, int order) //Sort by two variabl
 			flagSwap = 0;
 			for(int i=0; i<(len-1); i++)
 			{
-				if (order == 0 && (strncmp(list[i].lastName, list[i+1].lastName, STRING_SIZE)>0 || //uno mayor que otro
-								  (strncmp(list[i].lastName, list[i+1].lastName, STRING_SIZE)==0 && list[i].sector > list[i+1].sector)))//iguales y otra variable para ordenar
+				if (order == 1 && (strnicmp(list[i].lastName, list[i+1].lastName, STRING_SIZE)>0 || //uno mayor que otro
+								  (strnicmp(list[i].lastName, list[i+1].lastName, STRING_SIZE)==0 && list[i].sector > list[i+1].sector)))//iguales y otra variable para ordenar
 				{
 					employee_swapPostionInArray (list, i);
+					flagSwap = 1;
 				}
-				else if(order == 1 && (strncmp(list[i].lastName, list[i+1].lastName, STRING_SIZE)<0 || //uno menor que otro
-									  (strncmp(list[i].lastName, list[i+1].lastName, STRING_SIZE)==0 && list[i].sector < list[i+1].sector)))//iguales y otra variable para ordenar
+				else if(order == 0 && (strnicmp(list[i].lastName, list[i+1].lastName, STRING_SIZE)<0 || //uno menor que otro
+									  (strnicmp(list[i].lastName, list[i+1].lastName, STRING_SIZE)==0 && list[i].sector < list[i+1].sector)))//iguales y otra variable para ordenar
 					{
 						employee_swapPostionInArray (list, i);
+						flagSwap = 1;
 					}
 			}
 		}while(flagSwap);
@@ -325,5 +319,41 @@ int employee_sortArray(Employee* list, int len, int order) //Sort by two variabl
 	return ret;
 }
 
+
+int employee_avgSalary(Employee* list, int len, float* avgValue)
+{
+	int ret = -1;
+	int buffer=0;
+	int i=0;
+
+	if(list != NULL && len > 0)
+		{
+			ret = 0;
+			for (; i<len; i++)
+			{
+				buffer += list[i].salary;
+			}
+			*avgValue = buffer/len;
+		}
+	return ret;
+}
+
+int employee_sumSalary(Employee* list, int len, float* totalValue)
+{
+	int ret = -1;
+	int buffer=0;
+	int i=0;
+
+	if(list != NULL && len > 0)
+		{
+			ret = 0;
+			for (; i<len; i++)
+			{
+				buffer += list[i].salary;
+			}
+			*totalValue = buffer;
+		}
+	return ret;
+}
 
 
