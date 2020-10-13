@@ -27,22 +27,21 @@ int main(void)
 	setbuf(stdout, NULL);
 	char seguir='s';
 	int flagCustomer=0;
-	int flagPublication=0;
 	int indexNewCustomer;
 	int indexNewPublication;
-	float avg;
-	float totalSalary;
-	int i;
+
 	Customer listCustomers[ARRAY_SIZE];
 	customer_init(listCustomers, ARRAY_SIZE);
 	Publication listPublications[ARRAY_SIZE];
 	publication_init(listPublications, ARRAY_SIZE);
 
-	customer_force_init(listCustomers, ARRAY_SIZE, "Cristian", "Gimenez", "20-35959517-1");
+	if(!customer_force_init(listCustomers, ARRAY_SIZE, "Cristian", "Gimenez", "20-35959517-1"))
+		flagCustomer++;
 	customer_force_init(listCustomers, ARRAY_SIZE, "Tito", "Puente", "20-36959517-3");
 	customer_force_init(listCustomers, ARRAY_SIZE, "Cristian", "Jimeno", "20-35954517-1");
 	customer_force_init(listCustomers, ARRAY_SIZE, "Alberto", "Terrrero", "20-35959584-1");
 	customer_force_init(listCustomers, ARRAY_SIZE, "Homero", "Simpsons", "20-35959517-1");
+
 
 
 	publication_force_init(listPublications, ARRAY_SIZE, 1, ACTIVE, 23, "Vendo moto");
