@@ -347,6 +347,7 @@ int publication_activePerCustomer(Publication* listPub, int lenPub, Customer* li
 					flagActivesAds++;
 				}
 			}
+			ret=0;
 			printf("ID: %d - Nombre: %s - Apellido: %s - Cantidad de avisos activos: %d\n\n", listCust[i].id, listCust[i].name, listCust[i].lastName, flagActivesAds);
 		}
 	}

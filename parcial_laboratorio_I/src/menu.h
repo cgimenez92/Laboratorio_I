@@ -9,16 +9,20 @@
 #define MENU_H_
 
 /*
- * \brief Imprime el menú principal del programa
- * \return retorna el número elegido por el usuario
+ * \brief prints a string with the principal menu
+ * \return returns the elected number by user
  */
 int menu();
 
 /*
- * \brief Imprime el menú secundario (modificacion) del programa
- * \return retorna el número aleatorio generado
+ * \brief prints a string with the secondary menu (update)
+ * \return returns the elected number by user
  */
 int menuChangeParameter();
 
+/*
+ * \brief prints a string with the reports menu
+ * \return returns the elected number by user
+ */
 int menuReports();
 #endif /* MENU_H_ */

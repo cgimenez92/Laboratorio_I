@@ -30,8 +30,8 @@ int main(void)
 	customer_init(listCustomers, ARRAY_SIZE_CUSTOMER);
 	Publication listPublications[ARRAY_SIZE_ADS];
 	publication_init(listPublications, ARRAY_SIZE_ADS);
-
-	controller_force_init(listPublications, ARRAY_SIZE_ADS, listCustomers, ARRAY_SIZE_CUSTOMER, &flagCustomer);
+//
+//	controller_force_init(listPublications, ARRAY_SIZE_ADS, listCustomers, ARRAY_SIZE_CUSTOMER, &flagCustomer);
 
 	do
 	{

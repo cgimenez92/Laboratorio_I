@@ -87,6 +87,7 @@ int getYesOrNo(char* message, char* firstErrorMessage, char* secondErrorMessage,
 				else
 				{
 					printf("%s\n",secondErrorMessage);
+					ret = -3;
 					attempts--;
 				}
 		}while(attempts >= 0);

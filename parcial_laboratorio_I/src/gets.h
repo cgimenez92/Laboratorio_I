@@ -10,29 +10,29 @@
 
 
 /*
- * \brief Obtiene un nombre
- * \param char* message
- * \param char* errorMessage
- * \param char* pResult
+ * \brief Obtains a char 'S' or 'N'
+ * \param char* firstErrorMessage
+ * \param char* secondErrorMessage
+ * \param char* pChar
  * \param int attempts
  * \param int stringSize
- * \return (1) si obtuvo el nombre y es valido (0) Error
+ * \return Return (-1) if Error [Invalid length or NULL pointer or without free space] (0); if char is a 'S' (-2) if char is a 'N'; (-3) if char isn't a 'S' or 'N';
  */
 int getYesOrNo(char* message, char* firstErrorMessage, char* secondErrorMessage, char* pChar, int attempts, int stringSize);
 
 /*
- * \brief Obtiene un nombre
+ * \brief Obtains a valid name
  * \param char* message
  * \param char* errorMessage
  * \param char* pResult
  * \param int attempts
  * \param int stringSize
- * \return (1) si obtuvo el nombre y es valido (0) Error
+ * \return Return (-1) if Error [Invalid length or NULL pointer or without free space]; (0) if char is a 'S' (-2) if char is a 'N'; (-3) if char isn't a 'S' or 'N';
  */
 int getName(char* message, char* errorMessage, char* pResult, int attempts, int stringSize);
 
 /*
- * \brief Obtiene un entero, valido y con limites
+ * \brief Obtains a valid integer with limits
  * \param char* message
  * \param char* errorMessage
  * \param char* pResult
@@ -44,48 +44,49 @@ int getName(char* message, char* errorMessage, char* pResult, int attempts, int 
 int getInt(char* message, char* errorMessage, int* pResult, int attempts, int min, int max);
 
 /*
- * \brief Obtiene un flotante, valido y con limites
+ * \brief Obtains a valid float with limits
  * \param char* message
  * \param char* errorMessage
  * \param char* pResult
  * \param int attempts
  * \param float min
  * \param float max
- * \return (1) si obtuvo el nombre y es valido (0) Error
+ * \return (0) if obtain a name and is valid; (-1) Error [Invalid length or NULL pointer or without free space]
  */
 int getFloat (char* message, char* errorMessage, float* pResult, int attempts, float min, float max);
 
 /*
- * \brief Obtiene una operacion matematica, valida
+ * \brief Obtains symbol of a mathemathic operation
  * \param char* message
  * \param char* errorMessage
  * \param char* pResult
  * \param char* operation
  * \param int attempts
- * \return (1) si obtuvo alguno de los caracteres (+; -;/ ;*) y es valido (0) Error
+ * \return (0) if obtain a symbol  (+; -;/ ;*)  and is valid; (-1) Error [Invalid length or NULL pointer or without free space]
  */
 int getOperation(char* message, char* errorMessage, char* operation, int attempts);
 
 /*
- * \brief Obtiene una operacion matematica, valida
+ * \brief Obtains a valid CUIT wiht parameters
  * \param char* message
- * \param char* errorMessage
+ * \param char* firstErrorMessage
+ * \param char* secondErrorMessage
  * \param char* pResult
  * \param char* operation
  * \param int attempts
- * \return (1) si obtuvo alguno de los caracteres (+; -;/ ;*) y es valido (0) Error
+ * \paramint stringSize
+ * \return (0) if obtain a CUIT and is valid; (-1) Error [Invalid length or NULL pointer or without free space]
  */
 int getCuit(char* message, char* firstErrorMessage, char* secondErrorMessage, char* pResult, int attempts, int stringSize);
 
 /**
- * \brief Solicita un string
- * \param requestMessage Es el mensaje a ser mostrado para solicitar el dato
- * \param errorMessage Es el mensaje a ser mostrado en caso de error de tipo
- * \param errorMessageLenght Es el mensaje a ser mostrado en caso de error de longitud
- * \param input Array donde se cargará el texto ingresado
- * \param maxLenght int Longitud maxima del texto ingresado
- * \param attemps indica la cantidad de reintentos ante un error
- * \return 0 si consiguio el String -1 si no
+ * \brief Obtains a array of char (string) with limits
+ * \param char* message
+ * \param char* errorMessageLenght
+ * \param char* pResult
+ * \param int attempts
+ * \param int stringSize
+ * \return (0) if obtain a string and is valid; (-1) Error [Invalid length or NULL pointer or without free space]
  *
  */
 int getString(char* message, char* errorMessageLenght, char* pResult, int attempts, int stringSize);

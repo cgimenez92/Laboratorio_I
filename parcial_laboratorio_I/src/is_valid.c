@@ -25,6 +25,16 @@ int isValidInt(char* string)
 	return ret;
 }
 
+int isValidOneInt(char string)
+{
+	int ret = 1;
+	if (string > '9' || string < '0')
+	{
+		ret = 0;
+	}
+	return ret;
+}
+
 int isValidFloat(char*string, int limit)
 {
 	int ret = -1;
@@ -74,17 +84,6 @@ int isValidName(char*string, int limit)
 			ret = 0;
 			break;
 		}
-	}
-	return ret;
-}
-
-
-int isValidOneInt(char string)
-{
-	int ret = 1;
-	if (string > '9' || string < '0')
-	{
-		ret = 0;
 	}
 	return ret;
 }

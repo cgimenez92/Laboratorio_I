@@ -194,6 +194,7 @@ int customer_printArray(Customer* list , int len)
 return ret;
 }
 
+
 int customer_freePosition(Customer* list, int len)
 {
 	int ret = -1;
@@ -212,6 +213,12 @@ int customer_freePosition(Customer* list, int len)
 	return ret;
 }
 
+/** \brief find an Customer by Id and returns the index position in array.
+ * \param list Customer*
+ * \param len int
+ * \param id int
+ * \return Return Customer index position or (-1) if [Invalid length or NULL pointer received or Customer not found
+ */
 int customer_freePositionIndex(Customer* list, int len, int* pIndex)
 {
 	int ret = -1;

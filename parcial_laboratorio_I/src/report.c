@@ -11,26 +11,37 @@
 #include "publication.h"
 #include "customer.h"
 
+
+/** \brief list the units on the entity and acquires the one that has more.
+ * \param int i
+ * \param int* unit
+ * \param int* index
+ * \param int flag
+ * \param int* max
+ * \return int Return (-1) if Error [Invalid length or NULL pointer or without free space] - (0) if Ok
+ */
 static int swapMaxEntity(int i, int* unit, int* index, int flag, int* max);
 
 static int swapMaxEntity(int i, int* unit, int* index, int flag, int* max)
 {
 	int ret = -1;
-	if(!i)
+	if(unit!=NULL || index!=NULL ||  max!=NULL)
 	{
-		*unit=flag;
-		*max=flag;
-		*index=i;
-	}
-	else if(*unit > *max)
+		if(!i)
 		{
-			*max=*unit;
-			*index= i;
-			ret = 0;
+			*unit=flag;
+			*max=flag;
+			*index=i;
 		}
+		else if(*unit > *max)
+			{
+				*max=*unit;
+				*index= i;
+				ret = 0;
+			}
+	}
 	return ret;
 }
-
 
 int report_customerWithMorePublications(Publication* listPub, int lenPub, Customer* listCust, int lenCust)
 {
