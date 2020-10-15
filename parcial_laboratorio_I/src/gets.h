@@ -8,7 +8,6 @@
 #ifndef GETS_H_
 #define GETS_H_
 
-
 /*
  * \brief Obtains a char 'S' or 'N'
  * \param char* firstErrorMessage

@@ -26,7 +26,9 @@ void controller_force_init(Publication* listPub, int lenPub, Customer* listCust,
 	publication_force_init(listPub, lenPub, 2, ACTIVE, 2, "Alquilo casa en la playa");
 
 	if(!customer_force_init(listCust, lenCust, "Cristian", "Gimenez", "20-36918628-1"))
+	{
 		*flag=*flag+1;
+	}
 	customer_force_init(listCust, lenCust, "Roberto",  "Puente",   	"20-36959517-3");
 	customer_force_init(listCust, lenCust, "Cristian", "Gomez",   	"20-35954515-1");
 	customer_force_init(listCust, lenCust, "Alberto",  "Terrrero", 	"20-35959584-1");

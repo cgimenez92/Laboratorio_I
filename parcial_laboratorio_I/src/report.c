@@ -43,6 +43,7 @@ static int swapMaxEntity(int i, int* unit, int* index, int flag, int* max)
 	return ret;
 }
 
+
 int report_customerWithMorePublications(Publication* listPub, int lenPub, Customer* listCust, int lenCust)
 {
 	int ret = -1;
@@ -131,7 +132,6 @@ int report_itemNumberWithMorePublications(Publication* list, int len)
 	}
 	return ret;
 }
-
 
 
 

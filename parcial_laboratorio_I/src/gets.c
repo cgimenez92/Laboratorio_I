@@ -87,7 +87,7 @@ int getYesOrNo(char* message, char* firstErrorMessage, char* secondErrorMessage,
 				else
 				{
 					printf("%s\n",secondErrorMessage);
-					ret = -3;
+					//ret = -3;
 					attempts--;
 				}
 		}while(attempts >= 0);
@@ -246,7 +246,6 @@ int getCuit(char* message, char* firstErrorMessage, char* secondErrorMessage, ch
                 attempts--;
 			}
 		}while(attempts >= 0);
-
 	}
 	return ret;
 }

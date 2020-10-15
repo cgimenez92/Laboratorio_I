@@ -22,7 +22,7 @@ int report_customerWithMorePublications(Publication* listPub, int lenPub, Custom
  * \param int len
  * \return int Return (-1) if Error [Invalid length or NULL pointer or without free space] - (0) if Ok
  */
-int report_qPublicationsPaused          (Publication* list, int len);
+int report_qPublicationsPaused(Publication* list, int len);
 
 /** \brief Crosses the arrays of the entities and it acquires the one that have more of the same item number in distinct publications
  * \param Publication* list

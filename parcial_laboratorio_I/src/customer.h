@@ -14,7 +14,7 @@
 #define PAUSED 1
 #define CUIT_SIZE 15
 #define LIMIT_TEXT 64
-#define STRING_SIZE 4096
+#define STRING_SIZE 64
 #define ARRAY_SIZE_ADS 1000
 #define MIN_LIMIT_CLIENT 1
 #define MAX_LIMIT_CLIENT 100
