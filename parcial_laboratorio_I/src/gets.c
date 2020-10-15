@@ -208,8 +208,6 @@ int getOperation(char* message, char* errorMessage, char* operation, int attempt
 	return ret;
 }
 
-
-
 int getCuit(char* message, char* firstErrorMessage, char* secondErrorMessage, char* pResult, int attempts, int stringSize)
 {
 	char buffer[BUFFER_SIZE];

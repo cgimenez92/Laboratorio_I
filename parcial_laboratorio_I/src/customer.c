@@ -8,15 +8,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <conio.h>
-#include <ctype.h>
 #include "gets.h"
-#include "publication.h"
 #include "customer.h"
 #include "menu.h"
 
 static int customer_newId (void);
-static int customer_swapPostionInArray (Customer* list, int positionToSwap);
+
+static int customer_newId(void)
+{
+	static int id = 0;
+	id = id+1;
+	return id;
+}
 
 int customer_force_init(Customer* list, int len, char* name, char* lastName, char* cuit)
 {
@@ -27,22 +30,15 @@ int customer_force_init(Customer* list, int len, char* name, char* lastName, cha
         i = customer_freePosition(list,len);
         if(i >= 0)
         {
-        	list[i].id = customer_newId();
+        	list[i].id=customer_newId();
         	list[i].isEmpty=FALSE;
-        	strcpy(list[i].name,name);
-			strcpy(list[i].lastName,lastName);
-			strcpy(list[i].cuit,cuit);
+        	strncpy(list[i].name,name,STRING_SIZE);
+			strncpy(list[i].lastName,lastName,STRING_SIZE);
+			strncpy(list[i].cuit,cuit,STRING_SIZE);
         }
         ret = 0;
     }
     return ret;
-}
-
-static int customer_newId(void)
-{
-	static int id = 0;
-	id = id+1;
-	return id;
 }
 
 int customer_init(Customer* list, int len)
@@ -52,66 +48,12 @@ int customer_init(Customer* list, int len)
     {
 		for (int i = 0; i<len; i++ )
 		{
-			list[i].isEmpty = TRUE;
+			list[i].isEmpty=TRUE;
 		}
 		ret = 0;
 	}
 
 	return ret;
-}
-
-int customer_freePositionIndex(Customer* list, int len, int* pIndex)
-{
-	int ret = -1;
-	int i;
-		if (list != NULL && len >0 && pIndex != NULL)
-        {
-			for ( i = 0; i<len; i++)
-			{
-				if(list[i].isEmpty == TRUE)
-				{
-					*pIndex = i;
-					ret = 0;
-					break;
-				}
-			}
-		}
-	return ret;
-}
-
-int customer_print(Customer* list,int index)
-{
-	int ret = -1;
-
-	if(list != NULL && index >= 0)
-	{
-		if(list[index].isEmpty==FALSE)
-		{
-			printf("ID: %d - Nombre: %s - Apellido: %s - CUIT: %s",list[index].id, list[index].name, list[index].lastName, list[index].cuit);
-			ret = 0;
-		}
-		else
-		{
-			printf("\n/****Error - No existe el cliente****/\n");
-		}
-	}
-	return ret;
-}
-
-int customer_printArray(Customer* list , int len)
-{
-	int ret = -1;
-	if (list != NULL && len >0){
-		for (int i=0 ; i<len ; i++)
-		{
-			if(list[i].isEmpty == FALSE)
-			{
-				printf("ID: %d - Nombre: %s - Apellido: %s - CUIT: %s\n",list[i].id, list[i].name, list[i].lastName, list[i].cuit);
-			}
-		}
-		ret = 0;
-	}
-return ret;
 }
 
 int customer_create(Customer* list, int len)
@@ -131,10 +73,10 @@ Customer buffer;
 					     "\n/****Error - Caracteres invalidos****/\n/****Caracteres validos -> [0 - 9]****/\n",
 						 buffer.cuit, 2, CUIT_SIZE))
 			{
-					list[index] = buffer;
-					list[index].id = customer_newId();
-					list[index].isEmpty = FALSE;
-					ret = index;
+				list[index]=buffer;
+				list[index].id=customer_newId();
+				list[index].isEmpty=FALSE;
+				ret = index;
 			}
 			else
 				{
@@ -148,6 +90,7 @@ Customer buffer;
 	}
 	return ret;
 }
+
 
 int customer_update(Customer* list, int len)
 {
@@ -213,6 +156,44 @@ int customer_update(Customer* list, int len)
 	return ret;
 }
 
+
+// int customer_delete		 (Customer* listCust, int lenCust, Publication* listPub, int lenPub);
+
+int customer_print(Customer* list, int index)
+{
+	int ret = -1;
+
+	if(list != NULL && index >= 0)
+	{
+		if(list[index].isEmpty==FALSE)
+		{
+			printf("ID: %d - Nombre: %s - Apellido: %s - CUIT: %s",list[index].id, list[index].name, list[index].lastName, list[index].cuit);
+			ret = 0;
+		}
+		else
+		{
+			printf("\n/****Error - No existe el cliente****/\n");
+		}
+	}
+	return ret;
+}
+
+int customer_printArray(Customer* list , int len)
+{
+	int ret = -1;
+	if (list != NULL && len >0){
+		for (int i=0 ; i<len ; i++)
+		{
+			if(list[i].isEmpty == FALSE)
+			{
+				printf("ID: %d - Nombre: %s - Apellido: %s - CUIT: %s\n",list[i].id, list[i].name, list[i].lastName, list[i].cuit);
+			}
+		}
+		ret = 0;
+	}
+return ret;
+}
+
 int customer_freePosition(Customer* list, int len)
 {
 	int ret = -1;
@@ -224,6 +205,25 @@ int customer_freePosition(Customer* list, int len)
 				if(list[i].isEmpty == TRUE)
 				{
 					ret = i;
+					break;
+				}
+			}
+		}
+	return ret;
+}
+
+int customer_freePositionIndex(Customer* list, int len, int* pIndex)
+{
+	int ret = -1;
+	int i;
+		if (list != NULL && len >0 && pIndex != NULL)
+        {
+			for ( i = 0; i<len; i++)
+			{
+				if(list[i].isEmpty==TRUE)
+				{
+					*pIndex = i;
+					ret = 0;
 					break;
 				}
 			}
@@ -250,51 +250,4 @@ int customer_searchId(Customer* list, int len, int id)
         ret = 0;
     }
     return ret;
-}
-
-static int customer_swapPostionInArray (Customer* list, int positionToSwap)
-{
-	int ret = -1;
-	Customer buffer;
-
-	if(list != NULL && positionToSwap >= 0)
-	{
-		ret = 0;
-		buffer = list[positionToSwap];
-		list[positionToSwap] = list[positionToSwap+1];
-		list[positionToSwap+1] = buffer;
-	}
-
-	return ret;
-}
-
-int customer_sortArray(Customer* list, int len, int order)
-{
-	int ret = -1;
-	int flagSwap;
-
-	if(list != NULL && len > 0 && (order == 0 || order == 1))
-	{
-		do
-		{
-			flagSwap = 0;
-			for(int i=0; i<(len-1); i++)
-			{
-				if (order == 1 && (strnicmp(list[i].lastName, list[i+1].lastName, STRING_SIZE)>0)) //||//uno mayor que otro
-								 // (strnicmp(list[i].lastName, list[i+1].lastName, STRING_SIZE)==0 && list[i].sector > list[i+1].sector)))//iguales y otra variable para ordenar
-				{
-					customer_swapPostionInArray (list, i);
-					flagSwap = 1;
-				}
-				else if(order == 0 && (strnicmp(list[i].lastName, list[i+1].lastName, STRING_SIZE)<0)) //|| //uno menor que otro
-									 // (strnicmp(list[i].lastName, list[i+1].lastName, STRING_SIZE)==0 && list[i].sector < list[i+1].sector)))//iguales y otra variable para ordenar
-					{
-						customer_swapPostionInArray (list, i);
-						flagSwap = 1;
-					}
-			}
-		}while(flagSwap);
-		ret = 0;
-	}
-	return ret;
 }

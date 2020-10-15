@@ -7,7 +7,7 @@
 
 #ifndef GETS_H_
 #define GETS_H_
-#define BUFFER_SIZE 4096
+
 
 /*
  * \brief Obtiene un nombre

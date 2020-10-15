@@ -11,51 +11,34 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <conio.h>
-#include <ctype.h>
 #include "customer.h"
 #include "publication.h"
+#include "controller.h"
 #include "menu.h"
-#define ARRAY_SIZE 1000
-#define ASC 1
-#define DSC 0
-#define ACTIVE 0
-#define PAUSED 1
+#include "report.h"
 
 int main(void)
 {
 	setbuf(stdout, NULL);
-	char seguir='s';
+	char resume='s';
+	char resumeReports='s';
 	int flagCustomer=0;
 	int indexNewCustomer;
 	int indexNewPublication;
 
-	Customer listCustomers[ARRAY_SIZE];
-	customer_init(listCustomers, ARRAY_SIZE);
-	Publication listPublications[ARRAY_SIZE];
-	publication_init(listPublications, ARRAY_SIZE);
+	Customer listCustomers[ARRAY_SIZE_CUSTOMER];
+	customer_init(listCustomers, ARRAY_SIZE_CUSTOMER);
+	Publication listPublications[ARRAY_SIZE_ADS];
+	publication_init(listPublications, ARRAY_SIZE_ADS);
 
-	if(!customer_force_init(listCustomers, ARRAY_SIZE, "Cristian", "Gimenez", "20-35959517-1"))
-		flagCustomer++;
-	customer_force_init(listCustomers, ARRAY_SIZE, "Tito", "Puente", "20-36959517-3");
-	customer_force_init(listCustomers, ARRAY_SIZE, "Cristian", "Jimeno", "20-35954517-1");
-	customer_force_init(listCustomers, ARRAY_SIZE, "Alberto", "Terrrero", "20-35959584-1");
-	customer_force_init(listCustomers, ARRAY_SIZE, "Homero", "Simpsons", "20-35959517-1");
-
-
-
-	publication_force_init(listPublications, ARRAY_SIZE, 1, ACTIVE, 23, "Vendo moto");
-	publication_force_init(listPublications, ARRAY_SIZE, 1, ACTIVE, 50, "Vendo celular");
-	publication_force_init(listPublications, ARRAY_SIZE, 2, ACTIVE, 24, "Vendo computadora, buen estado");
-	publication_force_init(listPublications, ARRAY_SIZE, 3, PAUSED, 23, "Pinto casas");
-	publication_force_init(listPublications, ARRAY_SIZE, 5, ACTIVE, 14, "Alquilo casa en la playa");
+	controller_force_init(listPublications, ARRAY_SIZE_ADS, listCustomers, ARRAY_SIZE_CUSTOMER, &flagCustomer);
 
 	do
 	{
 		switch (menu())
 		{
 			case 1:
-				indexNewCustomer = customer_create(listCustomers, ARRAY_SIZE);
+				indexNewCustomer = customer_create(listCustomers, ARRAY_SIZE_CUSTOMER);
 				if(indexNewCustomer)
 				{
 					customer_print(listCustomers, indexNewCustomer);
@@ -70,7 +53,7 @@ int main(void)
 			case 2:
 				if(flagCustomer>0)
 				{
-					if(!customer_update(listCustomers, ARRAY_SIZE))
+					if(!customer_update(listCustomers, ARRAY_SIZE_CUSTOMER))
 					{
 						printf("\nSe pudo modificar correctamente");
 					}
@@ -88,7 +71,7 @@ int main(void)
 			case 3:
 				if(flagCustomer>0)
 				{
-					if(!publication_deleteByIdCustomer(listPublications, ARRAY_SIZE, listCustomers, ARRAY_SIZE))
+					if(!publication_deleteByIdCustomer(listPublications, ARRAY_SIZE_ADS, listCustomers, ARRAY_SIZE_CUSTOMER))
 					{
 						printf("\nSe borro cliente correctamente");
 					}
@@ -107,7 +90,7 @@ int main(void)
 ///////////***************Publicaciones***********************//////////////
 
 			case 4:
-				indexNewPublication = publication_create(listPublications, ARRAY_SIZE, listCustomers, ARRAY_SIZE);
+				indexNewPublication = publication_create(listPublications, ARRAY_SIZE_ADS, listCustomers, ARRAY_SIZE_CUSTOMER);
 				if(indexNewPublication)
 				{
 					publication_print(listPublications, indexNewPublication);
@@ -120,7 +103,7 @@ int main(void)
 			case 5:
 				if(flagCustomer>0)
 				{
-					if(!publication_changeState(listPublications, ARRAY_SIZE, listCustomers, ARRAY_SIZE, PAUSED))
+					if(!publication_changeState(listPublications, ARRAY_SIZE_ADS, listCustomers, ARRAY_SIZE_CUSTOMER, PAUSED))
 					{
 						printf("\nSe pudo modificar correctamente");
 					}
@@ -137,7 +120,7 @@ int main(void)
 			case 6:
 				if(flagCustomer>0)
 				{
-					if(!publication_changeState(listPublications, ARRAY_SIZE, listCustomers, ARRAY_SIZE, ACTIVE))
+					if(!publication_changeState(listPublications, ARRAY_SIZE_ADS, listCustomers, ARRAY_SIZE_CUSTOMER, ACTIVE))
 					{
 						printf("\nSe pudo modificar correctamente");
 					}
@@ -153,21 +136,47 @@ int main(void)
 				break;
 
 /////////////***************Print Clientes con Publicaciones***********************//////////////
-
 			case 7:
 				if(flagCustomer>0)
 				{
-					publication_countByCustomer(listPublications, ARRAY_SIZE, listCustomers, ARRAY_SIZE);
+					publication_activePerCustomer(listPublications, ARRAY_SIZE_ADS, listCustomers, ARRAY_SIZE_CUSTOMER);
 				}
 				break;
 
 
 /////////////***************Informes***********************//////////////
-//
-
+			case 8:
+				do
+				{
+					switch (menuReports())
+					{
+					case 1:
+						if(flagCustomer>0)
+						{
+							report_customerWithMorePublications(listPublications, ARRAY_SIZE_ADS, listCustomers, ARRAY_SIZE_CUSTOMER);
+						}
+						break;
+					case 2:
+						if(flagCustomer>0)
+						{
+							report_qPublicationsPaused(listPublications, ARRAY_SIZE_ADS);
+						}
+						break;
+					case 3:
+						if(flagCustomer>0)
+						{
+							report_itemNumberWithMorePublications(listPublications, ARRAY_SIZE_ADS);
+						}
+						break;
+					case 4:
+						resumeReports='n';
+						break;
+					}
+				}while (resumeReports=='s');
+				break;
 
 			case 9:
-				seguir='n';
+				resume='n';
 				break;
 
 			default:
@@ -175,7 +184,7 @@ int main(void)
 				break;
 	        }
 	         fflush(stdin);
-		}while (seguir=='s');
+		}while (resume=='s');
 
 	return 0;
 }

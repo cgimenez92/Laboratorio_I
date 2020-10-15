@@ -13,8 +13,31 @@
 #include "customer.h"
 #include "menu.h"
 
-static int publication_newId (void);
+static int publication_newId              (void);
 static int publication_swapPostionInArray (Publication* list, int positionToSwap);
+
+static int publication_newId(void)
+{
+	static int id = 0;
+	id = id+1;
+	return id;
+}
+
+static int publication_swapPostionInArray (Publication* list, int positionToSwap)
+{
+	int ret = -1;
+	Publication buffer;
+
+	if(list != NULL && positionToSwap >= 0)
+	{
+		ret = 0;
+		buffer = list[positionToSwap];
+		list[positionToSwap] = list[positionToSwap+1];
+		list[positionToSwap+1] = buffer;
+	}
+
+	return ret;
+}
 
 int publication_force_init(Publication* list, int len, int idCustomer, int status, int itemNumber, char* text)
 {
@@ -37,13 +60,6 @@ int publication_force_init(Publication* list, int len, int idCustomer, int statu
     return ret;
 }
 
-static int publication_newId(void)
-{
-	static int id = 0;
-	id = id+1;
-	return id;
-}
-
 int publication_init(Publication* list, int len)
 {
 	int ret = -1;
@@ -56,25 +72,6 @@ int publication_init(Publication* list, int len)
 		ret = 0;
 	}
 
-	return ret;
-}
-
-int publication_freePositionIndex(Publication* list, int len, int* pIndex)
-{
-	int ret = -1;
-	int i;
-		if (list != NULL && len >0 && pIndex != NULL)
-        {
-			for ( i = 0; i<len; i++)
-			{
-				if(list[i].isEmpty == TRUE)
-				{
-					*pIndex = i;
-					ret = 0;
-					break;
-				}
-			}
-		}
 	return ret;
 }
 
@@ -96,6 +93,22 @@ int publication_print(Publication* list, int index)
 	return ret;
 }
 
+int publication_printArray(Publication* list , int len)
+{
+	int ret = -1;
+	if (list != NULL && len >0)
+	{
+		for (int i=0 ; i<len ; i++)
+		{
+			if(list[i].isEmpty == FALSE)
+			{
+				printf("ID de aviso: %d - Cliente: %d - Estado de la publicacion: %d - Rubro: %d - \nTexto aviso: %s\n\n", list[i].id, list[i].idCustomer, list[i].status, list[i].itemNumber, list[i].text);
+			}
+		}
+		ret = 0;
+	}
+return ret;
+}
 
 int publication_printArrayByIdCustomer(Publication* list , int len, int index)
 {
@@ -114,23 +127,6 @@ int publication_printArrayByIdCustomer(Publication* list , int len, int index)
 return ret;
 }
 
-int publication_printArray(Publication* list , int len)
-{
-	int ret = -1;
-	if (list != NULL && len >0)
-	{
-		for (int i=0 ; i<len ; i++)
-		{
-			if(list[i].isEmpty == FALSE)
-			{
-				printf("ID de aviso: %d - Cliente: %d - Estado de la publicacion: %d - Rubro: %d - \nTexto aviso: %s\n\n", list[i].id, list[i].idCustomer, list[i].status, list[i].itemNumber, list[i].text);
-			}
-		}
-		ret = 0;
-	}
-return ret;
-}
-
 int publication_create(Publication* listPub, int lenPub, Customer* listCust, int lenCust)
 {
 int ret = -1;
@@ -140,13 +136,14 @@ Publication buffer;
 
 	if (listPub!=NULL && lenPub>0 && listCust!=NULL && lenCust>0)
 	{
+		customer_printArray(listCust , lenCust);
 		if (!publication_freePositionIndex (listPub, lenPub, &index) &&
-			!getInt("Id de Cliente:", "Ingresar unicamente numeros", &buffer.idCustomer, 2, MIN_LIMIT_SECTOR, MAX_LIMIT_SECTOR) &&
+			!getInt("Id de Cliente:", "Ingresar unicamente numeros", &buffer.idCustomer, 2, MIN_LIMIT_CLIENT, MAX_LIMIT_CLIENT) &&
 			(indexCustomer=customer_searchId(listCust, lenCust, buffer.idCustomer))>=0)
 		{
 			if (listCust[indexCustomer+1].isEmpty == FALSE &&
-				!getInt("Numero de Rubro:", "Ingresar unicamente numeros", &buffer.itemNumber, 2, MIN_LIMIT_SECTOR, MAX_LIMIT_SECTOR) &&
-				!getString("Ingrese texto a publicar:", "\n/****Error - Superaste la cantidad de caracteres (64 - Max)****/\n", buffer.text, 2, MAX_LIMIT_TEXT))
+				!getInt("Numero de Rubro:", "Ingresar unicamente numeros", &buffer.itemNumber, 2, MIN_LIMIT_ITEM_NUMBER, MAX_LIMIT_ITEM_NUMBER) &&
+				!getString("Ingrese texto a publicar:", "\n/****Error - Superaste la cantidad de caracteres (64 - Max)****/\n", buffer.text, 2, LIMIT_TEXT))
 				{
 					listPub[index] = buffer;
 					listPub[index].status = ACTIVE;
@@ -166,77 +163,8 @@ Publication buffer;
 	}
 	return ret;
 }
-//
-//int publication_update(Publication* list, int len)
-//{
-//	int ret = -1;
-//	int aux;
-//	int auxIndex;
-//	char auxMenu='s';
-//	Publication buffer;
-//
-//	if(list != NULL && len > 0)
-//	{
-//		publication_printArray(list, len);
-//		if(!getInt("Ingrese el id del usuario que desea cambiar: ", "Ingresar unicamente numeros", &aux, 2, 1, 1000))
-//		{
-//			auxIndex=publication_searchId(list, len, aux);
-//			if(list[auxIndex].isEmpty==FALSE)
-//			{
-//				publication_print(list,auxIndex);
-//				buffer = list[auxIndex];
-//				do
-//				{
-//					switch (menuChangeParameter())
-//					{
-//						case 1:
-//							if(!getName ("Ingrese nombre", "Ingresar unicamente caracteres", buffer.name, 3, STRING_SIZE))
-//							{
-//								strncpy(list[auxIndex].name , buffer.name,STRING_SIZE);
-//							}
-//							break;
-//						case 2:
-//							if(!getName ("Ingrese Apellido", "Ingresar unicamente caracteres", buffer.lastName, 3, STRING_SIZE))
-//							{
-//								strncpy(list[auxIndex].lastName , buffer.lastName,STRING_SIZE);
-//							}
-//							break;
-//						case 3:
-//							if(!getFloat("Ingrese Remuneracion: ", "Ingresar unicamente numeros separados por (.) -> Ej: 100.00", &buffer.salary, 2, MIN_LIMIT_SALARY, MAX_LIMIT_SALARY) )
-//							{
-//								list[auxIndex].salary = buffer.salary;
-//							}
-//							break;
-//						case 4:
-//							if(!getInt("Sector: ", "Ingresar unicamente numeros", &buffer.sector, 2, MIN_LIMIT_SECTOR, MAX_LIMIT_SECTOR))
-//							{
-//								list[auxIndex].sector = buffer.sector;
-//							}
-//							break;
-//						case 5:
-//							auxMenu='n';
-//							break;
-//
-//						default:
-//							printf("\nIngrese opcion correcta\n\n");
-//							break;
-//					}
-//				}while (auxMenu=='s');
-//				publication_print(list,auxIndex);
-//				ret = 0;
-//			}
-//		}
-//		else
-//			{
-//				printf("\n/****Error - No se encuentran datos del Id ingresado****/\n");
-//			}
-//	}
-//	return ret;
-//}
-//
-//
 
-int publication_deleteByIdCustomer(Publication* listPub, int lenPub, Customer* listCust, int lenCust)
+int publication_changeState(Publication* listPub, int lenPub, Customer* listCust, int lenCust, int state)
 {
 	int ret = -1;
 	char bufferChar;
@@ -245,7 +173,50 @@ int publication_deleteByIdCustomer(Publication* listPub, int lenPub, Customer* l
 
 	if (listPub != NULL && lenPub>0)
 	{
-		if(!getInt("Id de Cliente:", "Ingresar unicamente numeros", &buffer.idCustomer, 2, MIN_LIMIT_SECTOR, MAX_LIMIT_SECTOR) &&
+		publication_printArray(listPub,lenPub);
+		if(!getInt("Id de publicacion:", "Ingresar unicamente numeros", &buffer.id, 2, MIN_LIMIT_PUBLICATION, MAX_LIMIT_PUBLICATION) &&
+			(buffer.idCustomer = publication_searchIdCustomerById(listPub, lenPub, buffer.id)>=0) &&
+			(indexCustomer=customer_searchId(listCust, lenCust, buffer.idCustomer))>=0)
+		{
+			customer_print(listCust, indexCustomer);
+			if(listPub[indexCustomer+1].isEmpty == FALSE &&
+			   !getYesOrNo("\n¿Continuar con el cambio de estado de la publicacion? - S/N", "\nEligio NO", "\n/****Error - Caracter invalido****/\n", &bufferChar, 2, 1))
+			{
+				for (int i=0 ; i<lenPub; i++)
+				{
+					if(buffer.id == listPub[i].id)
+					{
+						if(!state && listPub[i].status == PAUSED)
+						{
+							listPub[i].status = ACTIVE;
+							ret = 0;
+							break;
+						}
+						else if(state && listPub[i].status == ACTIVE)
+							{
+								listPub[i].status = PAUSED;
+								ret = 0;
+								break;
+							}
+					}
+				}
+			}
+		}
+	}
+	return ret;
+}
+
+int publication_deleteByIdCustomer(Publication* listPub, int lenPub, Customer* listCust, int lenCust)
+{
+	int ret = -1;
+	char bufferChar;
+	int indexCustomer;
+	Publication buffer;
+
+	if (listPub != NULL && lenPub>0 && listCust != NULL && lenCust>0)
+	{
+		customer_printArray(listCust , lenCust);
+		if(!getInt("Id de Cliente:", "Ingresar unicamente numeros", &buffer.idCustomer, 2, MIN_LIMIT_CLIENT, MAX_LIMIT_CLIENT) &&
 			(indexCustomer=customer_searchId(listCust, lenCust, buffer.idCustomer))>=0)
 		{
 			publication_printArrayByIdCustomer(listPub, lenPub, indexCustomer+1);
@@ -267,49 +238,24 @@ int publication_deleteByIdCustomer(Publication* listPub, int lenPub, Customer* l
 	return ret;
 }
 
-int publication_changeState(Publication* listPub, int lenPub, Customer* listCust, int lenCust, int state)
+int publication_freePositionIndex(Publication* list, int len, int* pIndex)
 {
 	int ret = -1;
-	char bufferChar;
-	int indexCustomer;
-	Publication buffer;
-
-	if (listPub != NULL && lenPub>0)
-	{
-		publication_printArray(listPub,lenPub);
-		if(!getInt("Id de publicacion:", "Ingresar unicamente numeros", &buffer.id, 2, MIN_LIMIT_SECTOR, MAX_LIMIT_SECTOR) &&
-			(buffer.idCustomer = publication_searchIdCustomerById(listPub, lenPub, buffer.id)>=0) &&
-			(indexCustomer=customer_searchId(listCust, lenCust, buffer.idCustomer))>=0)
-		{
-			customer_print(listCust, indexCustomer);
-			if(listPub[indexCustomer+1].isEmpty == FALSE &&
-			   !getYesOrNo("\n¿Continuar con el cambio de estado de la publicacion? - S/N", "\nEligio NO", "\n/****Error - Caracter invalido****/\n", &bufferChar, 2, 1))
+	int i;
+		if (list != NULL && len >0 && pIndex != NULL)
+        {
+			for ( i = 0; i<len; i++)
 			{
-				for (int i=0 ; i<lenPub; i++)
+				if(list[i].isEmpty == TRUE)
 				{
-					if(buffer.id == listPub[i].id)
-					{
-						if(!state)
-						{
-							listPub[i].status = ACTIVE;
-							ret = 0;
-							break;
-
-						}
-						else
-						{
-							listPub[i].status = PAUSED;
-							ret = 0;
-							break;
-						}
-					}
+					*pIndex = i;
+					ret = 0;
+					break;
 				}
 			}
 		}
-	}
 	return ret;
 }
-
 
 int publication_freePosition(Publication* list, int len)
 {
@@ -351,23 +297,6 @@ int publication_searchIdCustomerById(Publication* list, int len, int id)
     return ret;
 }
 
-static int publication_swapPostionInArray (Publication* list, int positionToSwap)
-{
-	int ret = -1;
-	Publication buffer;
-
-	if(list != NULL && positionToSwap >= 0)
-	{
-		ret = 0;
-		buffer = list[positionToSwap];
-		list[positionToSwap] = list[positionToSwap+1];
-		list[positionToSwap+1] = buffer;
-	}
-
-	return ret;
-}
-//
-
 int publication_sortArray(Publication* list, int len, int order)
 {
 	int ret = -1;
@@ -399,38 +328,27 @@ int publication_sortArray(Publication* list, int len, int order)
 	return ret;
 }
 
-int publication_countByCustomer(Publication* listPub, int lenPub, Customer* listCust, int lenCust)
+int publication_activePerCustomer(Publication* listPub, int lenPub, Customer* listCust, int lenCust)
 {
 	int ret = -1;
-	int flagActivesItems;
-	int indexCustomer;
-	int i=0;
+	int i;
+	int j;
+	int flagActivesAds=0;
 
 	if(listPub!=NULL && lenPub>0 && listCust!=NULL && lenCust>0)
 	{
-		publication_sortArray(listPub, lenPub, ASC);
-		for(;i<lenPub && listPub[i].isEmpty == FALSE && listPub[i].status == ACTIVE; i++)
+		for(i=0; i<lenCust && listCust[i].isEmpty == FALSE; i++)
 		{
-			if(listPub[i].idCustomer != listPub[i-1].idCustomer)
+			flagActivesAds = 0;
+			for(j=0; j<lenPub; j++)
 			{
-				flagActivesItems=1;
-				for(int j=i+1; j<lenPub && listPub[i].idCustomer == listPub[j].idCustomer && listPub[j].status == ACTIVE; j++)
+				if(listPub[j].isEmpty == FALSE && listPub[j].status == ACTIVE && listPub[j].idCustomer == listCust[i].id)
 				{
-					flagActivesItems++;
+					flagActivesAds++;
 				}
-					indexCustomer=customer_searchId(listCust, lenCust, listPub[i].idCustomer);
-					if(indexCustomer>=0)
-					{
-						customer_print(listCust, indexCustomer);
-						printf(" Q Publicaciones activas %d\n", flagActivesItems);
-					}
 			}
-			else
-			{
-				continue;
-			}
+			printf("ID: %d - Nombre: %s - Apellido: %s - Cantidad de avisos activos: %d\n\n", listCust[i].id, listCust[i].name, listCust[i].lastName, flagActivesAds);
 		}
-		ret = 0;
 	}
 	return ret;
 }
