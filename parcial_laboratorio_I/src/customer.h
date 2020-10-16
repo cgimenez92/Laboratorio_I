@@ -12,6 +12,7 @@
 #define FALSE 0
 #define ACTIVE 0
 #define PAUSED 1
+#define ALL 2
 #define CUIT_SIZE 15
 #define LIMIT_TEXT 64
 #define STRING_SIZE 64

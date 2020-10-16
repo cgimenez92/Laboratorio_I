@@ -21,59 +21,105 @@
  * \return int Return (-1) if Error [Invalid length or NULL pointer or without free space] - (0) if Ok
  */
 static int swapMaxEntity(int i, int* unit, int* index, int flag, int* max);
-
 static int swapMaxEntity(int i, int* unit, int* index, int flag, int* max)
 {
 	int ret = -1;
-	if(unit!=NULL || index!=NULL ||  max!=NULL)
+	if(!i)
 	{
-		if(!i)
+		*unit=flag;
+		*max=flag;
+		*index=i;
+	}
+	else if(*unit > *max)
 		{
-			*unit=flag;
-			*max=flag;
-			*index=i;
+			*max=*unit;
+			*index= i;
+			ret = 0;
 		}
-		else if(*unit > *max)
+	return ret;
+}
+
+int report_countPublications(Publication* listPub, int lenPub, int idCustomer, int* qPublications,  int* qPublicationsActives,  int* qPublicationsPaused)
+{
+	int ret = -1;
+	int flagsPublications=0;
+	int flagsPublicationsActives=0;
+	int flagsPublicationsPaused=0;
+
+	if(listPub!=NULL && lenPub>0 && qPublications!=NULL && idCustomer>0)
+	{
+		for(int i=0; i<lenPub; i++)
+		{
+			if(listPub[i].isEmpty == FALSE && listPub[i].idCustomer == idCustomer)
 			{
-				*max=*unit;
-				*index= i;
-				ret = 0;
+				flagsPublications++;
+				if(listPub[i].status == PAUSED)
+				{
+					flagsPublicationsPaused++;
+				}
+				if(listPub[i].status == ACTIVE)
+				{
+					flagsPublicationsActives++;
+				}
 			}
+		}
+		*qPublications =flagsPublications;
+		*qPublicationsActives =flagsPublicationsActives;
+		*qPublicationsPaused =flagsPublicationsPaused;
+		ret=0;
 	}
 	return ret;
 }
 
-
-int report_customerWithMorePublications(Publication* listPub, int lenPub, Customer* listCust, int lenCust)
+int report_customerWithMorePublications(Publication* listPub, int lenPub, Customer* listCust, int lenCust, int statusPublication)
 {
 	int ret = -1;
 	int customerWithMorePublications;
-	int PublicationsPerCustomer;
+	int customerWithMoreActivesPublications;
+	int customerWithMorePausedPublications;
+	int bufferrWithMorePublications;
 	int indexCustomerMorePublications;
-	int flagsPublications=0;
 
 	if(listPub!=NULL && lenPub>0 && listCust!=NULL && lenCust>0)
 	{
 		for(int i=0; i<lenCust; i++)
 		{
-			for(int j=0; j<lenPub; j++)
+			if(!report_countPublications(listPub, lenPub, listCust[i].id, &customerWithMorePublications, &customerWithMoreActivesPublications, &customerWithMorePausedPublications))
 			{
-				if(listPub[j].isEmpty == FALSE && listPub[j].idCustomer == listCust[i].id)
+				switch (statusPublication)
 				{
-					flagsPublications++;
+				case 0:
+					if(!i || customerWithMoreActivesPublications > bufferrWithMorePublications)
+					{
+						bufferrWithMorePublications = customerWithMoreActivesPublications;
+						indexCustomerMorePublications = i;
+					}
+					break;
+				case 1:
+					if(!i || customerWithMorePausedPublications > bufferrWithMorePublications)
+					{
+						bufferrWithMorePublications = customerWithMorePausedPublications;
+						indexCustomerMorePublications = i;
+					}
+					break;
+				case 2:
+					if(!i || customerWithMorePublications > bufferrWithMorePublications)
+					{
+						bufferrWithMorePublications = customerWithMorePublications;
+						indexCustomerMorePublications = i;
+					}
+					break;
 				}
+				ret = 0;
 			}
-			swapMaxEntity(i, &PublicationsPerCustomer, &indexCustomerMorePublications, flagsPublications, &customerWithMorePublications);
-			ret=0;
 		}
         printf("********************************************************************\n");
-        printf("********************* CLIENTE CON MAS AVISOS ***********************\n");
-        printf("********************************************************************\n");
-		printf("ID: %d - Nombre: %s - Apellido: %s - Cantidad de avisos: %d\n", listCust[indexCustomerMorePublications].id, listCust[indexCustomerMorePublications].name, listCust[indexCustomerMorePublications].lastName, customerWithMorePublications);
+		printf("ID: %d - Nombre: %s - Apellido: %s - Cantidad de avisos: %d\n", listCust[indexCustomerMorePublications].id, listCust[indexCustomerMorePublications].name, listCust[indexCustomerMorePublications].lastName, bufferrWithMorePublications);
 		printf("********************************************************************\n");
 	}
 	return ret;
 }
+
 
 int report_qPublicationsPaused(Publication* list, int len)
 {
@@ -132,6 +178,7 @@ int report_itemNumberWithMorePublications(Publication* list, int len)
 	}
 	return ret;
 }
+
 
 
 

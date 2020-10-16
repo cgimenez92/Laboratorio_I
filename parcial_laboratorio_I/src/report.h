@@ -15,7 +15,7 @@
  * \param int lenCust
  * \return int Return (-1) if Error [Invalid length or NULL pointer or without free space] - (0) if Ok
  */
-int report_customerWithMorePublications(Publication* listPub, int lenPub, Customer* listCust, int lenCust);
+int report_customerWithMorePublications(Publication* listPub, int lenPub, Customer* listCust, int lenCust, int statusPublication);
 
 /** \brief list the arrays of publications and acquires the one that it is more paused status
  * \param Publication* list
@@ -30,5 +30,9 @@ int report_qPublicationsPaused(Publication* list, int len);
  * \return int Return (-1) if Error [Invalid length or NULL pointer or without free space] - (0) if Ok
  */
 int report_itemNumberWithMorePublications(Publication* list, int len);
+
+
+
+int report_countPublications(Publication* listPub, int lenPub, int idCustomer, int* qPublications,  int* qPublicationsActives,  int* qPublicationsPaused);
 
 #endif /* REPORT_H_ */

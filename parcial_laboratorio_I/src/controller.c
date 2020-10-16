@@ -14,15 +14,15 @@
 
 void controller_force_init(Publication* listPub, int lenPub, Customer* listCust, int lenCust, int* flag)
 {
-	publication_force_init(listPub, lenPub, 1, ACTIVE, 23, "Vendo moto");
+	publication_force_init(listPub, lenPub, 2, PAUSED, 23, "Vendo moto");
 	publication_force_init(listPub, lenPub, 5, ACTIVE, 50, "Vendo celular");
 	publication_force_init(listPub, lenPub, 2, ACTIVE, 24, "Vendo computadora, buen estado");
 	publication_force_init(listPub, lenPub, 1, ACTIVE, 23, "Pinto casas");
-	publication_force_init(listPub, lenPub, 2, ACTIVE, 2, "Alquilo casa en la playa");
+	publication_force_init(listPub, lenPub, 2, PAUSED, 2, "Alquilo casa en la playa");
 	publication_force_init(listPub, lenPub, 1, ACTIVE, 23, "Vendo moto");
 	publication_force_init(listPub, lenPub, 5, ACTIVE, 50, "Vendo celular");
-	publication_force_init(listPub, lenPub, 2, ACTIVE, 24, "Vendo computadora, buen estado");
-	publication_force_init(listPub, lenPub, 1, ACTIVE, 23, "Pinto casas");
+	publication_force_init(listPub, lenPub, 2, PAUSED, 24, "Vendo computadora, buen estado");
+	publication_force_init(listPub, lenPub, 1, ACTIVE, 24, "Pinto casas");
 	publication_force_init(listPub, lenPub, 2, ACTIVE, 2, "Alquilo casa en la playa");
 
 	if(!customer_force_init(listCust, lenCust, "Cristian", "Gimenez", "20-36918628-1"))

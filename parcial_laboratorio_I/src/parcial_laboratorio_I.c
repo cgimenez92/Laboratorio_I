@@ -153,7 +153,7 @@ int main(void)
 					case 1:
 						if(flagCustomer>0)
 						{
-							report_customerWithMorePublications(listPublications, ARRAY_SIZE_ADS, listCustomers, ARRAY_SIZE_CUSTOMER);
+							report_customerWithMorePublications(listPublications, ARRAY_SIZE_ADS, listCustomers, ARRAY_SIZE_CUSTOMER, ALL);
 						}
 						break;
 					case 2:
@@ -168,7 +168,20 @@ int main(void)
 							report_itemNumberWithMorePublications(listPublications, ARRAY_SIZE_ADS);
 						}
 						break;
+
 					case 4:
+						if(flagCustomer>0)
+						{
+							report_customerWithMorePublications(listPublications, ARRAY_SIZE_ADS, listCustomers, ARRAY_SIZE_CUSTOMER, ACTIVE);
+						}
+						break;
+					case 5:
+						if(flagCustomer>0)
+						{
+							report_customerWithMorePublications(listPublications, ARRAY_SIZE_ADS, listCustomers, ARRAY_SIZE_CUSTOMER, PAUSED);
+						}
+						break;
+					case 6:
 						resumeReports='n';
 						break;
 					}

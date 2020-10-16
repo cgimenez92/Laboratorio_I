@@ -31,7 +31,7 @@ int menuChangeParameter()
 int menuReports()
 {
 	int option;
-	getInt("\n1-Cliente con mas avisos\n2-Cantidad de avisos pausados\n3-Rubro con mas avisos\n4-Salir\n\nIngrese opcion: ", "\n/****Error - Ingresar opcion de 1-4****/\n", &option, 2, 1, 4);
+	getInt("\n1-Cliente con mas avisos\n2-Cantidad de avisos pausados\n3-Rubro con mas avisos\n4-Cliente con mas avisos activos\n5-Cliente con mas avisos pausados\n6-Salir\n\nIngrese opcion: ", "\n/****Error - Ingresar opcion de 1-4****/\n", &option, 2, 1, 6);
 	fflush(stdin);
     return option;
 }
