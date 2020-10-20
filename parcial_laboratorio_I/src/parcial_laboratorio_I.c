@@ -26,6 +26,7 @@ int main(void)
 	int indexNewCustomer;
 	int indexNewPublication;
 	int bufferPublication;
+	char bufferCuit[CUIT_SIZE];
 	int bufferItemNumber;
 
 
@@ -211,13 +212,12 @@ int main(void)
 						}
 						break;
 
-					/*Cantidad por cliente
 					case 10:
 						if(flagCustomer>0)
 						{
-							report_customerWithMorePublications(listPublications, ARRAY_SIZE_ADS, listCustomers, ARRAY_SIZE_CUSTOMER, PAUSED);
+							report_qPublicationsPerCustomer(listPublications, ARRAY_SIZE_ADS, listCustomers, ARRAY_SIZE_CUSTOMER, *bufferCuit, &bufferPublication);
 						}
-						break;*/
+						break;
 					case 11:
 						resumeReports='n';
 						break;

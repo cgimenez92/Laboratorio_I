@@ -39,4 +39,8 @@ int report_countPublications(Publication* listPub, int lenPub, int idCustomer, i
 int report_qPublications(Publication* listPub, int lenPub, int* qPublications);
 
 int report_qPublicationsPerItemNumber(Publication* list, int len,  int* itemNumber, int* qPublications);
+
+
+int report_qPublicationsPerCustomer(Publication* listPub, int lenPub, Customer* listCust, int lenCust, char cuit, int* qPublications);
+
 #endif /* REPORT_H_ */

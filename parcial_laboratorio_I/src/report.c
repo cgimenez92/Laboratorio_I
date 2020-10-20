@@ -54,10 +54,12 @@ static int swap(int i, int* index, int* flag, int* max)
 	return ret;
 }
 
-int report_countPublications(Publication* listPub, int lenPub, int idCustomer, int* qPublications)
+int report_countPublications(Publication* listPub, int lenPub, int idCustomer, int* qPublications,  int* qPublicationsActives,  int* qPublicationsPaused)
 {
 	int ret = -1;
-	int flagPublications=0;
+	int flagsPublications=0;
+	int flagsPublicationsActives=0;
+	int flagsPublicationsPaused=0;
 
 	if(listPub!=NULL && lenPub>0 && qPublications!=NULL && idCustomer>0)
 	{
@@ -65,18 +67,20 @@ int report_countPublications(Publication* listPub, int lenPub, int idCustomer, i
 		{
 			if(listPub[i].isEmpty == FALSE && listPub[i].idCustomer == idCustomer)
 			{
-				flagPublications++;
+				flagsPublications++;
 				if(listPub[i].status == PAUSED)
 				{
-					flagPublications++;
+					flagsPublicationsPaused++;
 				}
 				if(listPub[i].status == ACTIVE)
 				{
-					flagPublications++;
+					flagsPublicationsActives++;
 				}
 			}
 		}
-		*qPublications =flagPublications;
+		*qPublications =flagsPublications;
+		*qPublicationsActives =flagsPublicationsActives;
+		*qPublicationsPaused =flagsPublicationsPaused;
 		ret=0;
 	}
 	return ret;
@@ -86,6 +90,8 @@ int report_customerWithMorePublications(Publication* listPub, int lenPub, Custom
 {
 	int ret = -1;
 	int qPublications;
+	int qPublicationsActives;
+	int qPublicationsPaused;
 	int bufferPublications;
 	int indexCustomerMorePublications;
 
@@ -93,15 +99,15 @@ int report_customerWithMorePublications(Publication* listPub, int lenPub, Custom
 	{
 		for(int i=0; i<lenCust; i++)
 		{
-			if(!report_countPublications(listPub, lenPub, listCust[i].id, &qPublications))
+			if(!report_countPublications(listPub, lenPub, listCust[i].id, &qPublications, &qPublicationsActives, &qPublicationsPaused))
 			{
 				switch (statusPublication)
 				{
 				case 0:
-					swap(i, &indexCustomerMorePublications, &qPublications, &bufferPublications);
+					swap(i, &indexCustomerMorePublications, &qPublicationsActives, &bufferPublications);
 					break;
 				case 1:
-					swap(i, &indexCustomerMorePublications, &qPublications, &bufferPublications);
+					swap(i, &indexCustomerMorePublications, &qPublicationsPaused, &bufferPublications);
 					break;
 				case 2:
 					swap(i, &indexCustomerMorePublications, &qPublications, &bufferPublications);
@@ -183,7 +189,7 @@ int report_itemNumberWithMorePublications(Publication* list, int len)
 int report_qPublications(Publication* listPub, int lenPub, int* qPublications)
 {
 	int ret = -1;
-	int flagPublications=0;
+	int flagsPublications=0;
 
 	if(listPub!=NULL && lenPub>0 && qPublications!=NULL)
 	{
@@ -191,10 +197,10 @@ int report_qPublications(Publication* listPub, int lenPub, int* qPublications)
 		{
 			if(listPub[i].isEmpty == FALSE && listPub[i].status == ACTIVE)
 			{
-				flagPublications++;
+				flagsPublications++;
 			}
 		}
-		*qPublications =flagPublications;
+		*qPublications =flagsPublications;
 		ret=0;
 		printf("***************************************************************\n");
 		printf("************ CANTIDAD DE AVISOS ACTIVOS TOTALES: %d ***********\n", *qPublications);
@@ -209,7 +215,7 @@ int report_qPublications(Publication* listPub, int lenPub, int* qPublications)
 int report_qPublicationsPerItemNumber(Publication* list, int len,  int itemNumber, int* qPublications)
 {
 	int ret = -1;
-	int flagPublications=0;
+	int flagsPublications=0;
 	int i;
 
 	if(!getInt("Ingresar rubro a calcular la cantidad que hay en avisos:  \n", "Ingresar unicamente numeros", &itemNumber, 2, 1, 69))
@@ -220,7 +226,7 @@ int report_qPublicationsPerItemNumber(Publication* list, int len,  int itemNumbe
 			{
 				if(list[i].isEmpty == FALSE && list[i].itemNumber == itemNumber)
 				{
-					flagPublications++;
+					flagsPublications++;
 				}
 				/*else if(list[i].itemNumber != itemNumber)
 					{
@@ -228,7 +234,7 @@ int report_qPublicationsPerItemNumber(Publication* list, int len,  int itemNumbe
 						ret=-2;
 					}*/
 			}
-			*qPublications=flagPublications;
+			*qPublications=flagsPublications;
 			ret = 0;
 		    printf("*******************************************************************\n");
 		    printf("***************** CANTIDAD DE AVISOS POR RUBRO: %d ****************\n", *qPublications);
@@ -242,31 +248,36 @@ int report_qPublicationsPerItemNumber(Publication* list, int len,  int itemNumbe
 }
 
 /* h) Cantidad por cliente: Ingresar por consola un cuit e imprimir la cantidad de avisos que existen de dicho cliente. */
-int report_qPublicationsPerCustomer(Publication* listPub, int lenPub, Customer* listCust, int lenCust, int cuit, int* qPublications)
+int report_qPublicationsPerCustomer(Publication* listPub, int lenPub, Customer* listCust, int lenCust, char* cuit, int* pubPerCust)
 {
 	int ret=-1;
-	int flagPublications;
+	int i;
+	int qPublications;
+	int qPublicationsActives;
+	int qPublicationsPaused;
+	int flagsPublications=0;
 	int indexCustomerMorePublications;
 
 	if(!getCuit ("Ingrese CUIT: ",
 				 "\n/****Error - Ingresar cuit con el siguiente formato -> Ej: xx-xxxxxxxx-x****/\n",
 				 "\n/****Error - Caracteres invalidos****/\n/****Caracteres validos -> [0 - 9]****/\n",
-				 &cuit, 2, CUIT_SIZE))
+				 cuit, 2, CUIT_SIZE))
 	{
 		if(listPub!=NULL && lenPub>0 && listCust!=NULL && lenCust>0)
 		{
-			for(int i=0; i<lenCust; i++)
+			for(i=0; i<lenCust; i++)
 			{
-				if(!report_countPublications(listPub, lenPub, listCust[i].id, &qPublications) &&
-					!strnicmp(listCust[i].lastName, cuit, CUIT_SIZE))
+				if(!report_countPublications(listPub, lenPub, listCust[i].id, &qPublications, &qPublicationsActives, &qPublicationsPaused) &&
+					!strnicmp(listCust[i].cuit, cuit, CUIT_SIZE))
 				{
-					flagPublications++;
+					flagsPublications++;
 				}
 			}
-			*qPublications=flagPublications;
+			indexCustomerMorePublications = i;
+			*pubPerCust=flagsPublications;
 			ret = 0;
 			printf("********************************************************************\n");
-			printf("ID: %d - Nombre: %s - Apellido: %s - Cantidad de avisos: %d\n", listCust[indexCustomerMorePublications].id, listCust[indexCustomerMorePublications].name, listCust[indexCustomerMorePublications].lastName, qPublications);
+			printf("ID: %d - Nombre: %s - Apellido: %s - Cantidad de avisos: %d\n", listCust[indexCustomerMorePublications].id, listCust[indexCustomerMorePublications].name, listCust[indexCustomerMorePublications].lastName, *pubPerCust);
 			printf("********************************************************************\n");
 		}
 	}
