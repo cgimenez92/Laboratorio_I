@@ -26,7 +26,6 @@ int main(void)
 	int indexNewCustomer;
 	int indexNewPublication;
 	int bufferPublication;
-	char bufferCuit[CUIT_SIZE];
 	int bufferItemNumber;
 
 
@@ -215,7 +214,7 @@ int main(void)
 					case 10:
 						if(flagCustomer>0)
 						{
-							report_qPublicationsPerCustomer(listPublications, ARRAY_SIZE_ADS, listCustomers, ARRAY_SIZE_CUSTOMER, *bufferCuit, &bufferPublication);
+							report_qPublicationsPerCustomer(listPublications, ARRAY_SIZE_ADS, listCustomers, ARRAY_SIZE_CUSTOMER, &bufferPublication);
 						}
 						break;
 					case 11:

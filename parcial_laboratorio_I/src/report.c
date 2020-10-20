@@ -248,34 +248,33 @@ int report_qPublicationsPerItemNumber(Publication* list, int len,  int itemNumbe
 }
 
 /* h) Cantidad por cliente: Ingresar por consola un cuit e imprimir la cantidad de avisos que existen de dicho cliente. */
-int report_qPublicationsPerCustomer(Publication* listPub, int lenPub, Customer* listCust, int lenCust, char* cuit, int* pubPerCust)
+int report_qPublicationsPerCustomer(Publication* listPub, int lenPub, Customer* listCust, int lenCust, int* pubPerCust)
 {
 	int ret=-1;
 	int i;
 	int qPublications;
 	int qPublicationsActives;
 	int qPublicationsPaused;
-	int flagsPublications=0;
+	char bufferCuit[CUIT_SIZE];
 	int indexCustomerMorePublications;
 
 	if(!getCuit ("Ingrese CUIT: ",
 				 "\n/****Error - Ingresar cuit con el siguiente formato -> Ej: xx-xxxxxxxx-x****/\n",
 				 "\n/****Error - Caracteres invalidos****/\n/****Caracteres validos -> [0 - 9]****/\n",
-				 cuit, 2, CUIT_SIZE))
+				 bufferCuit, 2, CUIT_SIZE))
 	{
 		if(listPub!=NULL && lenPub>0 && listCust!=NULL && lenCust>0)
 		{
 			for(i=0; i<lenCust; i++)
 			{
 				if(!report_countPublications(listPub, lenPub, listCust[i].id, &qPublications, &qPublicationsActives, &qPublicationsPaused) &&
-					!strnicmp(listCust[i].cuit, cuit, CUIT_SIZE))
+				   !strnicmp(listCust[i].cuit, bufferCuit, CUIT_SIZE))
 				{
-					flagsPublications++;
+					indexCustomerMorePublications = i;
+					*pubPerCust=qPublications;
+					ret = 0;
 				}
 			}
-			indexCustomerMorePublications = i;
-			*pubPerCust=flagsPublications;
-			ret = 0;
 			printf("********************************************************************\n");
 			printf("ID: %d - Nombre: %s - Apellido: %s - Cantidad de avisos: %d\n", listCust[indexCustomerMorePublications].id, listCust[indexCustomerMorePublications].name, listCust[indexCustomerMorePublications].lastName, *pubPerCust);
 			printf("********************************************************************\n");
