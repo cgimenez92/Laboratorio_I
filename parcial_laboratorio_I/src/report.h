@@ -33,6 +33,10 @@ int report_itemNumberWithMorePublications(Publication* list, int len);
 
 
 
-int report_countPublications(Publication* listPub, int lenPub, int idCustomer, int* qPublications,  int* qPublicationsActives,  int* qPublicationsPaused);
+int report_countPublications(Publication* listPub, int lenPub, int idCustomer, int* qPublications);
 
+
+int report_qPublications(Publication* listPub, int lenPub, int* qPublications);
+
+int report_qPublicationsPerItemNumber(Publication* list, int len,  int* itemNumber, int* qPublications);
 #endif /* REPORT_H_ */

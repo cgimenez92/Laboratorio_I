@@ -25,6 +25,9 @@ int main(void)
 	int flagCustomer=0;
 	int indexNewCustomer;
 	int indexNewPublication;
+	int bufferPublication;
+	int bufferItemNumber;
+
 
 	Customer listCustomers[ARRAY_SIZE_CUSTOMER];
 	customer_init(listCustomers, ARRAY_SIZE_CUSTOMER);
@@ -168,7 +171,6 @@ int main(void)
 							report_itemNumberWithMorePublications(listPublications, ARRAY_SIZE_ADS);
 						}
 						break;
-
 					case 4:
 						if(flagCustomer>0)
 						{
@@ -181,7 +183,42 @@ int main(void)
 							report_customerWithMorePublications(listPublications, ARRAY_SIZE_ADS, listCustomers, ARRAY_SIZE_CUSTOMER, PAUSED);
 						}
 						break;
-					case 6:
+				/*	Imprimir lista de rubros ordenados de menor a mayor (sin repetir)
+				 * case 6:
+						if(flagCustomer>0)
+						{
+							report_customerWithMorePublications(listPublications, ARRAY_SIZE_ADS, listCustomers, ARRAY_SIZE_CUSTOMER, PAUSED);
+						}
+						break;*/
+					case 7:
+						if(flagCustomer>0)
+						{
+							report_qPublications(listPublications, ARRAY_SIZE_ADS, &bufferPublication);
+						}
+						break;
+					/*Cliente con menos avisos
+					 * case 8:
+						if(flagCustomer>0)
+						{
+							report_customerWithMorePublications(listPublications, ARRAY_SIZE_ADS, listCustomers, ARRAY_SIZE_CUSTOMER, PAUSED);
+						}
+						break;*/
+
+					case 9:
+						if(flagCustomer>0)
+						{
+							report_qPublicationsPerItemNumber(listPublications, ARRAY_SIZE_ADS,  &bufferItemNumber, &bufferPublication);
+						}
+						break;
+
+					/*Cantidad por cliente
+					case 10:
+						if(flagCustomer>0)
+						{
+							report_customerWithMorePublications(listPublications, ARRAY_SIZE_ADS, listCustomers, ARRAY_SIZE_CUSTOMER, PAUSED);
+						}
+						break;*/
+					case 11:
 						resumeReports='n';
 						break;
 					}
