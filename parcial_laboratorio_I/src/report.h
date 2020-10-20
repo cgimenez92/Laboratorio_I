@@ -31,7 +31,7 @@ int report_qPublicationsPaused(Publication* list, int len);
  */
 int report_itemNumberWithMorePublications(Publication* list, int len);
 
-
+int report_sortArrayByItemNumber(Publication* list, int len);
 
 int report_countPublications(Publication* listPub, int lenPub, int idCustomer, int* qPublications);
 

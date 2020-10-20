@@ -183,13 +183,12 @@ int main(void)
 							report_customerWithMorePublications(listPublications, ARRAY_SIZE_ADS, listCustomers, ARRAY_SIZE_CUSTOMER, PAUSED);
 						}
 						break;
-				/*	Imprimir lista de rubros ordenados de menor a mayor (sin repetir)
-				 * case 6:
+					case 6:
 						if(flagCustomer>0)
 						{
-							report_customerWithMorePublications(listPublications, ARRAY_SIZE_ADS, listCustomers, ARRAY_SIZE_CUSTOMER, PAUSED);
+							report_sortArrayByItemNumber(listPublications, ARRAY_SIZE_ADS);
 						}
-						break;*/
+						break;
 					case 7:
 						if(flagCustomer>0)
 						{

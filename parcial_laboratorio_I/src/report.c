@@ -21,6 +21,8 @@
  * \return int Return (-1) if Error [Invalid length or NULL pointer or without free space] - (0) if Ok
  */
 static int swapMaxEntity(int i, int* unit, int* index, int flag, int* max);
+static int report_swapPostionInArray (Publication* list, int positionToSwap);
+static int report_printDistinctItemNumber(Publication* list , int len);
 static int swap(int i, int* index, int* flag, int* max);
 
 static int swapMaxEntity(int i, int* unit, int* index, int flag, int* max)
@@ -183,7 +185,63 @@ int report_itemNumberWithMorePublications(Publication* list, int len)
 
 /* d) Imprimir lista de rubros ordenados de menor a mayor (sin repetir) */
 
+static int report_swapPostionInArray (Publication* list, int positionToSwap)
+{
+	int ret = -1;
+	Publication buffer;
 
+	if(list != NULL && positionToSwap >= 0)
+	{
+		ret = 0;
+		buffer = list[positionToSwap];
+		list[positionToSwap] = list[positionToSwap+1];
+		list[positionToSwap+1] = buffer;
+	}
+
+	return ret;
+}
+
+static int report_printDistinctItemNumber(Publication* list , int len)
+{
+	int ret = -1;
+	if (list != NULL && len >0)
+	{
+		for (int i=0 ; i<len ; i++)
+		{
+			if(list[i].isEmpty == FALSE && list[i].itemNumber != list[i+1].itemNumber)
+			{
+				printf("Rubro: %d\n", list[i].itemNumber);
+			}
+		}
+		ret = 0;
+	}
+return ret;
+}
+
+int report_sortArrayByItemNumber(Publication* list, int len)
+{
+	int ret = -1;
+	int flagSwap;
+
+	if(list != NULL && len > 0)
+	{
+		do
+		{
+			flagSwap = 0;
+			for(int i=0; i<(len-1); i++)
+			{
+				if (list[i].itemNumber < list[i+1].itemNumber)
+				{
+					report_swapPostionInArray (list, i);
+					flagSwap = 1;
+				}
+			}
+		}while(flagSwap);
+		report_printDistinctItemNumber(list , len);
+		ret = 0;
+	}
+	return ret;
+}
 
 /* e) Cantidad de avisos activos totales */
 int report_qPublications(Publication* listPub, int lenPub, int* qPublications)
@@ -209,6 +267,8 @@ int report_qPublications(Publication* listPub, int lenPub, int* qPublications)
 	return ret;
 }
 /* f) Cliente con menos avisos */
+
+
 
 
 /* g) Cantidad por rubro: Ingresar por consola un numero de rubro e imprimir la cantidad de avisos que existen de dicho rubro. */
@@ -251,7 +311,6 @@ int report_qPublicationsPerItemNumber(Publication* list, int len,  int itemNumbe
 int report_qPublicationsPerCustomer(Publication* listPub, int lenPub, Customer* listCust, int lenCust, int* pubPerCust)
 {
 	int ret=-1;
-	int i;
 	int qPublications;
 	int qPublicationsActives;
 	int qPublicationsPaused;
@@ -265,7 +324,7 @@ int report_qPublicationsPerCustomer(Publication* listPub, int lenPub, Customer* 
 	{
 		if(listPub!=NULL && lenPub>0 && listCust!=NULL && lenCust>0)
 		{
-			for(i=0; i<lenCust; i++)
+			for(int i=0; i<lenCust; i++)
 			{
 				if(!report_countPublications(listPub, lenPub, listCust[i].id, &qPublications, &qPublicationsActives, &qPublicationsPaused) &&
 				   !strnicmp(listCust[i].cuit, bufferCuit, CUIT_SIZE))

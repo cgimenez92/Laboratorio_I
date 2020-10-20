@@ -10,6 +10,8 @@
 
 #define TRUE 1
 #define FALSE 0
+#define ASC 1
+#define DSC 0
 #define ACTIVE 0
 #define PAUSED 1
 #define ALL 2
