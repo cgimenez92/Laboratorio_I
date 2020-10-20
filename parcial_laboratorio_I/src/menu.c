@@ -32,7 +32,7 @@ int menuReports()
 {
 	int option;
 	getInt("\n1-Cliente con mas avisos\n2-Cantidad de avisos pausados\n3-Rubro con mas avisos\n4-Cliente con mas avisos activos\n5-Cliente con mas avisos pausados\n6-Rubros ordenados de mayor a menor"
-			"\n7-Cantidad de avisos activos totales\n8-Clientes con menos avisos\n9-Cantidad por rubro\n10-Cantidad por clientes\n11-Salir\n\nIngrese opcion: ", "\n/****Error - Ingresar opcion de 1-12****/\n", &option, 2, 1,12);
+			"\n7-Cantidad de avisos activos totales\n8-Clientes con menos avisos\n9-Cantidad por rubro\n10-Cantidad por cliente\n11-Salir\n\nIngrese opcion: ", "\n/****Error - Ingresar opcion de 1-12****/\n", &option, 2, 1,12);
 	fflush(stdin);
     return option;
 }

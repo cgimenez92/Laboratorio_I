@@ -156,7 +156,7 @@ int main(void)
 					case 1:
 						if(flagCustomer>0)
 						{
-							report_customerWithMorePublications(listPublications, ARRAY_SIZE_ADS, listCustomers, ARRAY_SIZE_CUSTOMER, ALL);
+							report_customerCountPublications(listPublications, ARRAY_SIZE_ADS, listCustomers, ARRAY_SIZE_CUSTOMER, ALL_MAX);
 						}
 						break;
 					case 2:
@@ -174,13 +174,13 @@ int main(void)
 					case 4:
 						if(flagCustomer>0)
 						{
-							report_customerWithMorePublications(listPublications, ARRAY_SIZE_ADS, listCustomers, ARRAY_SIZE_CUSTOMER, ACTIVE);
+							report_customerCountPublications(listPublications, ARRAY_SIZE_ADS, listCustomers, ARRAY_SIZE_CUSTOMER, ACTIVE);
 						}
 						break;
 					case 5:
 						if(flagCustomer>0)
 						{
-							report_customerWithMorePublications(listPublications, ARRAY_SIZE_ADS, listCustomers, ARRAY_SIZE_CUSTOMER, PAUSED);
+							report_customerCountPublications(listPublications, ARRAY_SIZE_ADS, listCustomers, ARRAY_SIZE_CUSTOMER, PAUSED);
 						}
 						break;
 					case 6:
@@ -195,14 +195,12 @@ int main(void)
 							report_qPublications(listPublications, ARRAY_SIZE_ADS, &bufferPublication);
 						}
 						break;
-					/*Cliente con menos avisos
-					 * case 8:
+					case 8:
 						if(flagCustomer>0)
 						{
-							report_customerWithMorePublications(listPublications, ARRAY_SIZE_ADS, listCustomers, ARRAY_SIZE_CUSTOMER, PAUSED);
+							report_customerCountPublications(listPublications, ARRAY_SIZE_ADS, listCustomers, ARRAY_SIZE_CUSTOMER, ALL_MIN);
 						}
-						break;*/
-
+						break;
 					case 9:
 						if(flagCustomer>0)
 						{

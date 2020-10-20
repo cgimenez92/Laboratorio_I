@@ -15,7 +15,7 @@
  * \param int lenCust
  * \return int Return (-1) if Error [Invalid length or NULL pointer or without free space] - (0) if Ok
  */
-int report_customerWithMorePublications(Publication* listPub, int lenPub, Customer* listCust, int lenCust, int statusPublication);
+int report_customerCountPublications(Publication* listPub, int lenPub, Customer* listCust, int lenCust, int statusPublication);
 
 /** \brief list the arrays of publications and acquires the one that it is more paused status
  * \param Publication* list
