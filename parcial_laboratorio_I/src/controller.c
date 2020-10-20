@@ -24,6 +24,7 @@ void controller_force_init(Publication* listPub, int lenPub, Customer* listCust,
 	publication_force_init(listPub, lenPub, 2, PAUSED, 50, "Vendo computadora, buen estado");
 	publication_force_init(listPub, lenPub, 1, ACTIVE, 50, "Pinto casas");
 	publication_force_init(listPub, lenPub, 3, ACTIVE, 2, "Alquilo casa en la playa");
+	publication_force_init(listPub, lenPub, 3, ACTIVE, 2, "Vendo Termotanque");
 
 	if(!customer_force_init(listCust, lenCust, "Cristian", "Gimenez", "20-36918628-1"))
 	{

@@ -254,7 +254,7 @@ int report_qPublications(Publication* listPub, int lenPub, int* qPublications)
 	return ret;
 }
 
-/*9-Cantidad por rubro: Ingresar por consola un numero de rubro e imprimir la cantidad de avisos que existen de dicho rubro. */
+/*9-Cantidad por rubro*/
 int report_qPublicationsPerItemNumber(Publication* list, int len,  int itemNumber, int* qPublications)
 {
 	int ret = -1;
@@ -290,8 +290,7 @@ int report_qPublicationsPerItemNumber(Publication* list, int len,  int itemNumbe
 	return ret;
 }
 
-///Error cuando pongo un cuit ok y luego pongo uno erroneo////
-/*10-Cantidad por cliente: Ingresar por consola un cuit e imprimir la cantidad de avisos que existen de dicho cliente. */
+/*10-Cantidad por cliente*/
 int report_qPublicationsPerCustomer(Publication* listPub, int lenPub, Customer* listCust, int lenCust, int* pubPerCust)
 {
 	int ret=-1;

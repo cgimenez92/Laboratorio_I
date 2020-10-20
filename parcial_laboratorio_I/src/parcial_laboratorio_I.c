@@ -40,6 +40,7 @@ int main(void)
 	{
 		switch (menu())
 		{
+											///////////***************CLIENTES***********************//////////////
 			case 1:
 				indexNewCustomer = customer_create(listCustomers, ARRAY_SIZE_CUSTOMER);
 				if(indexNewCustomer)
@@ -90,7 +91,7 @@ int main(void)
 
 				break;
 
-///////////***************Publicaciones***********************//////////////
+											///////////***************PUBLICACIONES***********************//////////////
 
 			case 4:
 				indexNewPublication = publication_create(listPublications, ARRAY_SIZE_ADS, listCustomers, ARRAY_SIZE_CUSTOMER);
@@ -138,7 +139,7 @@ int main(void)
 				}
 				break;
 
-/////////////***************Print Clientes con Publicaciones***********************//////////////
+									/////////////***************PRINT CLIENTES CON PUBLICACIONES***********************//////////////
 			case 7:
 				if(flagCustomer>0)
 				{
@@ -147,7 +148,7 @@ int main(void)
 				break;
 
 
-/////////////***************Informes***********************//////////////
+									/////////////***************************INFORMES**********************************//////////////
 			case 8:
 				do
 				{
