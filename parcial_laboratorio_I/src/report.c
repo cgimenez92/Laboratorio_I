@@ -271,11 +271,6 @@ int report_qPublicationsPerItemNumber(Publication* list, int len,  int itemNumbe
 				{
 					flagsPublications++;
 				}
-				/*else if(list[i].itemNumber != itemNumber)
-					{
-						printf("***************** EL RUBRO NO EXISTE ****************\n");
-						ret=-2;
-					}*/
 			}
 			*qPublications=flagsPublications;
 			ret = 0;
